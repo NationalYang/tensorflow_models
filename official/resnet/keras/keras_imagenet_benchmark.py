@@ -257,7 +257,6 @@ class Resnet50KerasBenchmarkBase(keras_benchmark.KerasBenchmark):
     FLAGS.num_gpus = 1
     FLAGS.enable_eager = True
     FLAGS.run_eagerly = True
-    FLAGS.explicit_gpu_placement = True
     FLAGS.distribution_strategy = 'off'
     FLAGS.model_dir = self._get_model_dir(
         'benchmark_1_gpu_no_dist_strat_run_eagerly')
@@ -278,8 +277,8 @@ class Resnet50KerasBenchmarkBase(keras_benchmark.KerasBenchmark):
     FLAGS.batch_size = 64
     self._run_and_report_benchmark()
 
-  def benchmark_1_gpu_no_dist_strat_force_v1_path_run_eagerly(self):
-    """Forced v1 execution in tf.compile path and force eager."""
+  def benchmark_1_gpu_no_dist_strat_force_v2_run_eagerly(self):
+    """Forced v2 execution in tf.compile path and force eager."""
     self._setup()
 
     FLAGS.num_gpus = 1
@@ -287,13 +286,13 @@ class Resnet50KerasBenchmarkBase(keras_benchmark.KerasBenchmark):
     FLAGS.run_eagerly = True
     FLAGS.distribution_strategy = 'off'
     FLAGS.model_dir = self._get_model_dir(
-        'benchmark_1_gpu_no_dist_strat_force_v1_path_run_eagerly')
+        'benchmark_1_gpu_no_dist_strat_force_v1_path_run_eagerly_tweaked')
     FLAGS.batch_size = 64
     FLAGS.force_v2_in_keras_compile = False
     self._run_and_report_benchmark()
 
-  def benchmark_1_gpu_no_dist_strat_force_v1_path_run_eagerly_tweaked(self):
-    """Forced v1 execution in tf.compile path and force eager."""
+  def benchmark_1_gpu_no_dist_strat_force_v2_run_eagerly_tweaked(self):
+    """Forced v2 execution in tf.compile path and force eager."""
     self._setup()
 
     FLAGS.num_gpus = 1
@@ -302,13 +301,13 @@ class Resnet50KerasBenchmarkBase(keras_benchmark.KerasBenchmark):
     FLAGS.explicit_gpu_placement = True
     FLAGS.distribution_strategy = 'off'
     FLAGS.model_dir = self._get_model_dir(
-        'benchmark_1_gpu_no_dist_strat_force_v1_path_run_eagerly_tweaked')
+        'benchmark_1_gpu_force_dist_strat_run_eagerly_tweaked')
     FLAGS.batch_size = 64
-    FLAGS.force_v2_in_keras_compile = False
+    FLAGS.force_v2_in_keras_compile = True
     self._run_and_report_benchmark()
 
-  def benchmark_1_gpu_no_dist_strat_force_v1_path(self):
-    """No dist strat but forced v1 execution tf.compile path."""
+  def benchmark_1_gpu_no_dist_strat_force_v2(self):
+    """No dist strat but forced v2 execution tf.compile path."""
     self._setup()
 
     FLAGS.num_gpus = 1
@@ -327,7 +326,6 @@ class Resnet50KerasBenchmarkBase(keras_benchmark.KerasBenchmark):
     FLAGS.num_gpus = 1
     FLAGS.enable_eager = True
     FLAGS.run_eagerly = True
-    FLAGS.explicit_gpu_placement = True
     FLAGS.distribution_strategy = 'off'
     FLAGS.model_dir = self._get_model_dir(
         'benchmark_1_gpu_no_dist_strat_run_eagerly_fp16')
