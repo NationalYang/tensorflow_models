@@ -37,7 +37,7 @@ class CallstackSampler(object):
       signal.setitimer(signal.ITIMER_VIRTUAL, 0)
 
   def save(self, fname):
-    with open(fname, 'w') as f:
+    with open(fname, 'w+') as f:
       for s in self.stacks:
         for l in s:
           f.write('%s\n' % l)
