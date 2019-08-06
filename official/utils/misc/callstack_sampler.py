@@ -25,6 +25,8 @@ class CallstackSampler(object):
                                                text)
       formatted_stack.append(formatted_frame)
     self.stacks.append(formatted_stack)
+    for l in formatted_stack:
+          print('%s\n' % l)
     signal.setitimer(signal.ITIMER_VIRTUAL, self.interval, 0)
 
   @contextlib.contextmanager
@@ -37,12 +39,7 @@ class CallstackSampler(object):
       signal.setitimer(signal.ITIMER_VIRTUAL, 0)
 
   def save(self, fname):
-    with open(fname, 'w+') as f:
-      for s in self.stacks:
-        for l in s:
-          f.write('%s\n' % l)
-        f.write('\n')
-
+    pass
 
 @contextlib.contextmanager
 def callstack_sampling(filename, interval=None):
