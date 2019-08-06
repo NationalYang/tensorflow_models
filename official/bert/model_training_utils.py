@@ -361,7 +361,7 @@ def run_customized_training_loop(
         # Runs several steps in the host while loop.
         steps = _steps_to_run(current_step, steps_per_epoch, steps_per_loop)
 
-        if steps == 1:
+        if steps > 100000:
           # TODO(zongweiz): merge with train_steps once tf.while_loop
           # GPU performance bugs are fixed.
           train_single_step(train_iterator)
