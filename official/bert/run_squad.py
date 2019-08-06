@@ -38,6 +38,7 @@ from official.bert import squad_lib
 from official.bert import tokenization
 from official.bert import tpu_lib
 from official.utils.misc import keras_utils
+from official.utils.misc import callstack_sampler
 
 flags.DEFINE_bool('do_train', False, 'Whether to run training.')
 flags.DEFINE_bool('do_predict', False, 'Whether to run eval on the dev set.')
@@ -224,19 +225,20 @@ def train_squad(strategy,
   loss_fn = get_loss_fn(loss_factor=1.0)
   use_remote_tpu = (FLAGS.strategy_type == 'tpu' and FLAGS.tpu)
 
-  model_training_utils.run_customized_training_loop(
-      strategy=strategy,
-      model_fn=_get_squad_model,
-      loss_fn=loss_fn,
-      model_dir=FLAGS.model_dir,
-      steps_per_epoch=steps_per_epoch,
-      steps_per_loop=FLAGS.steps_per_loop,
-      epochs=epochs,
-      train_input_fn=train_input_fn,
-      init_checkpoint=FLAGS.init_checkpoint,
-      use_remote_tpu=use_remote_tpu,
-      run_eagerly=run_eagerly,
-      custom_callbacks=custom_callbacks)
+  with callstack_sampler.callstack_sampling('stack.txt', interval=0.1):
+    model_training_utils.run_customized_training_loop(
+        strategy=strategy,
+        model_fn=_get_squad_model,
+        loss_fn=loss_fn,
+        model_dir=FLAGS.model_dir,
+        steps_per_epoch=steps_per_epoch,
+        steps_per_loop=FLAGS.steps_per_loop,
+        epochs=epochs,
+        train_input_fn=train_input_fn,
+        init_checkpoint=FLAGS.init_checkpoint,
+        use_remote_tpu=use_remote_tpu,
+        run_eagerly=run_eagerly,
+        custom_callbacks=custom_callbacks)
 
 
 def predict_squad(strategy, input_meta_data):
