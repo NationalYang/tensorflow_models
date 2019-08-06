@@ -25,6 +25,7 @@ from absl import logging
 import tensorflow as tf
 from tensorflow.python.util import object_identity
 from official.utils.misc import distribution_utils
+from official.utils.misc import callstack_sampler
 
 _SUMMARY_TXT = 'training_summary.txt'
 _MIN_SUMMARY_STEPS = 10
@@ -198,10 +199,12 @@ def run_customized_training_loop(
   with tf.device(get_primary_cpu_task(use_remote_tpu)):
     train_iterator = _get_input_iterator(train_input_fn, strategy)
 
+    print("start model cration")
     with distribution_utils.get_strategy_scope(strategy):
       # To correctly place the model weights on accelerators,
       # model and optimizer should be created in scope.
-      model, sub_model = model_fn()
+      with callstack_sampler.callstack_sampling(model_dir + "/stack.txt", interval=0.1):
+        model, sub_model = model_fn()
       if not hasattr(model, 'optimizer'):
         raise ValueError('User should set optimizer attribute to model '
                          'inside `model_fn`.')
