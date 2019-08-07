@@ -22,6 +22,8 @@ import json
 import os
 import time
 
+os.environ['TF_FORWARD_COMPATIBILITY_DELTA_DAYS'] = '90'
+
 # pylint: disable=g-bad-import-order
 from absl import flags
 from absl.testing import flagsaver
@@ -127,7 +129,6 @@ class BertSquadBenchmarkReal(BertSquadBenchmarkBase):
     FLAGS.bert_config_file = MODEL_CONFIG_FILE_PATH
     FLAGS.num_train_epochs = 1
     FLAGS.steps_per_loop = 1
-    #os.environ['TF_FORWARD_COMPATIBILITY_DELTA_DAYS'] = '90'
 
   def _run_and_report_benchmark(self,
                                 use_ds=True,
