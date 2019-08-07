@@ -196,5 +196,5 @@ def create_squad_dataset(file_path, seq_length, batch_size, is_training=True):
     dataset = dataset.repeat()
 
   dataset = dataset.batch(batch_size, drop_remainder=True)
-  dataset = dataset.prefetch(1024)
+  # dataset = dataset.prefetch(1024)
   return dataset
