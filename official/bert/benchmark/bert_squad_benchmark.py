@@ -22,6 +22,8 @@ import json
 import os
 import time
 
+os.environ["TF_CPP_VMODULE"] = "meta_optimizer=2"
+
 # pylint: disable=g-bad-import-order
 from absl import flags
 from absl.testing import flagsaver

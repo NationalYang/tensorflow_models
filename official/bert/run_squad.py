@@ -180,7 +180,6 @@ def train_squad(strategy,
                 custom_callbacks=None,
                 run_eagerly=False):
   """Run bert squad training."""
-  os.environ["TF_CPP_VMODULE"] = "meta_optimizer=2"
   if strategy:
     logging.info('Training using customized training loop with distribution'
                  ' strategy.')
