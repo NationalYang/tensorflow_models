@@ -22,7 +22,7 @@ import json
 import os
 import time
 
-os.environ["TF_CPP_VMODULE"] = "meta_optimizer=2,graph_partition=1,stream=1"
+os.environ["TF_CPP_VMODULE"] = "meta_optimizer=2,graph_partition=1,stream=1,gpu_event_mgr=2,gpu_util=2"
 #os.environ["TF_CPP_MIN_VLOG_LEVEL"] = "1"
 #os.environ["TF_CPP_MIN_LOG_LEVEL"] = "0"
 
