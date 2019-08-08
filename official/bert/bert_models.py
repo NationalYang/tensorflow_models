@@ -336,13 +336,13 @@ def squad_model(bert_config, max_seq_length, float_type, initializer=None):
     Two tensors, start logits and end logits, [batch x sequence length].
   """
   unique_ids = tf.keras.layers.Input(
-      shape=(1,), dtype=tf.int32, name='unique_ids')
+      shape=(1,), dtype=tf.int64, name='unique_ids')
   input_word_ids = tf.keras.layers.Input(
-      shape=(max_seq_length,), dtype=tf.int32, name='input_ids')
+      shape=(max_seq_length,), dtype=tf.int64, name='input_ids')
   input_mask = tf.keras.layers.Input(
-      shape=(max_seq_length,), dtype=tf.int32, name='input_mask')
+      shape=(max_seq_length,), dtype=tf.int64, name='input_mask')
   input_type_ids = tf.keras.layers.Input(
-      shape=(max_seq_length,), dtype=tf.int32, name='segment_ids')
+      shape=(max_seq_length,), dtype=tf.int64, name='segment_ids')
 
   core_model = modeling.get_bert_model(
       input_word_ids,
@@ -398,11 +398,11 @@ def classifier_model(bert_config,
     BERT sub-model (words, mask, type) -> (bert_outputs)
   """
   input_word_ids = tf.keras.layers.Input(
-      shape=(max_seq_length,), dtype=tf.int32, name='input_word_ids')
+      shape=(max_seq_length,), dtype=tf.int64, name='input_word_ids')
   input_mask = tf.keras.layers.Input(
-      shape=(max_seq_length,), dtype=tf.int32, name='input_mask')
+      shape=(max_seq_length,), dtype=tf.int64, name='input_mask')
   input_type_ids = tf.keras.layers.Input(
-      shape=(max_seq_length,), dtype=tf.int32, name='input_type_ids')
+      shape=(max_seq_length,), dtype=tf.int64, name='input_type_ids')
   bert_model = modeling.get_bert_model(
       input_word_ids,
       input_mask,
