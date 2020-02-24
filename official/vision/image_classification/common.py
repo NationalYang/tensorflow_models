@@ -132,20 +132,11 @@ class PiecewiseConstantDecayWithWarmup(
     self.learning_rate_ops_cache = {}
 
   def __call__(self, step):
-    if tf.executing_eagerly():
+    if tf.executing_eagerly() or not slef.compute_lr_on_cpu:
       return self._get_learning_rate(step)
-
-    # In an eager function or graph, the current implementation of optimizer
-    # repeatedly call and thus create ops for the learning rate schedule. To
-    # avoid this, we cache the ops if not executing eagerly.
-    graph = tf.compat.v1.get_default_graph()
-    if graph not in self.learning_rate_ops_cache:
-      if self.compute_lr_on_cpu:
-        with tf.device('/device:CPU:0'):
-          self.learning_rate_ops_cache[graph] = self._get_learning_rate(step)
-      else:
-        self.learning_rate_ops_cache[graph] = self._get_learning_rate(step)
-    return self.learning_rate_ops_cache[graph]
+    else:
+      with tf.device('/device:CPU:0'):
+        return self._get_learning_rate(step)
 
   def _get_learning_rate(self, step):
     """Compute learning rate at given step."""
@@ -317,7 +308,7 @@ def define_keras_flags(
                        help='Whether to use a trivial Keras model.')
   flags.DEFINE_boolean(name='report_accuracy_metrics', default=True,
                        help='Report metrics during training and evaluation.')
-  flags.DEFINE_boolean(name='use_tensor_lr', default=False,
+  flags.DEFINE_boolean(name='use_tensor_lr', default=True,
                        help='Use learning rate tensor instead of a callback.')
   flags.DEFINE_boolean(
       name='enable_tensorboard', default=False,
