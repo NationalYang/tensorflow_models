@@ -317,7 +317,7 @@ def define_keras_flags(
                        help='Whether to use a trivial Keras model.')
   flags.DEFINE_boolean(name='report_accuracy_metrics', default=True,
                        help='Report metrics during training and evaluation.')
-  flags.DEFINE_boolean(name='use_tensor_lr', default=False,
+  flags.DEFINE_boolean(name='use_tensor_lr', default=True,
                        help='Use learning rate tensor instead of a callback.')
   flags.DEFINE_boolean(
       name='enable_tensorboard', default=False,
