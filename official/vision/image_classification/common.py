@@ -132,7 +132,7 @@ class PiecewiseConstantDecayWithWarmup(
     self.learning_rate_ops_cache = {}
 
   def __call__(self, step):
-    if tf.executing_eagerly() or not slef.compute_lr_on_cpu:
+    if tf.executing_eagerly() or not self.compute_lr_on_cpu:
       return self._get_learning_rate(step)
     else:
       with tf.device('/device:CPU:0'):
