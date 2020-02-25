@@ -35,6 +35,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import multiprocessing
 import os
 from absl import logging
 import tensorflow as tf
@@ -113,7 +114,7 @@ def process_record_dataset(dataset,
   # Parses the raw records into images and labels.
   dataset = dataset.map(
       lambda value: parse_record_fn(value, is_training, dtype),
-      num_parallel_calls=tf.data.experimental.AUTOTUNE)
+      num_parallel_calls=multiprocessing.cpu_count())
   dataset = dataset.batch(batch_size, drop_remainder=drop_remainder)
 
   # Operations between the final prefetch and the get_next call to the iterator
@@ -122,7 +123,7 @@ def process_record_dataset(dataset,
   # critical training path. Setting buffer_size to tf.data.experimental.AUTOTUNE
   # allows DistributionStrategies to adjust how many batches to fetch based
   # on how many devices are present.
-  dataset = dataset.prefetch(buffer_size=tf.data.experimental.AUTOTUNE)
+  dataset = dataset.prefetch(buffer_size=1)
 
   options = tf.data.Options()
   options.experimental_slack = tf_data_experimental_slack
