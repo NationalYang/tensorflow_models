@@ -563,6 +563,7 @@ class Resnet50KerasBenchmarkBase(keras_benchmark.KerasBenchmark):
     FLAGS.distribution_strategy = 'mirrored'
     FLAGS.model_dir = self._get_model_dir('benchmark_8_gpu')
     FLAGS.batch_size = 128 * 8  # 8 GPUs
+    os.environ['NCCL_DEBUG'] = 'INFO'
     self._run_and_report_benchmark()
 
   def benchmark_8_gpu_amp(self):
