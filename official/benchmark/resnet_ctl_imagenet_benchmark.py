@@ -66,6 +66,7 @@ class CtlBenchmark(PerfZeroBenchmark):
       warmup: number of entries in stats['step_timestamp_log'] to ignore.
     """
 
+    print("stats: ", stats)
     metrics = []
     if 'eval_acc' in stats:
       metrics.append({
@@ -87,6 +88,8 @@ class CtlBenchmark(PerfZeroBenchmark):
       # first entry in the time_log is start of step 1. The rest of the
       # entries are the end of each step recorded
       time_log = stats['step_timestamp_log']
+      print("time_log: ", time_log)
+      print("warmup: ", warmup)
       elapsed = time_log[-1].timestamp - time_log[warmup].timestamp
       num_examples = (
           total_batch_size * log_steps * (len(time_log) - warmup - 1))
