@@ -81,6 +81,10 @@ class TimeHistory(tf.keras.callbacks.Callback):
   @property
   def average_steps_per_second(self):
     """The average training steps per second across all epochs."""
+    print("cal average_steps_per_second")
+    print("self.global_steps: ", self.global_steps)
+    print("self.epoch_runtime_log: ", self.epoch_runtime_log)
+    print("total epoch runtime: ", sum(self.epoch_runtime_log))
     return self.global_steps / sum(self.epoch_runtime_log)
 
   @property
