@@ -226,6 +226,8 @@ class RetinanetBenchmarkReal(RetinanetAccuracy):
   def benchmark_8_gpu_coco(self):
     """Run RetinaNet model accuracy test with 8 GPUs."""
     self.num_gpus = 8
+    os.environ['NCCL_DEBUG'] = 'INFO'
+    os.environ['NCCL_DEBUG_SUBSYS'] = 'ALL'
     self._setup()
     params = copy.deepcopy(self.params_override)
     params['train']['total_steps'] = 1875  # One epoch.
