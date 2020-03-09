@@ -114,6 +114,8 @@ def process_record_dataset(dataset,
       num_parallel_calls=tf.data.experimental.AUTOTUNE)
   dataset = dataset.batch(batch_size, drop_remainder=drop_remainder)
 
+  dataset = dataset.prefetch(buffer_size=8)
+
   options = tf.data.Options()
   options.experimental_slack = tf_data_experimental_slack
   dataset = dataset.with_options(options)
