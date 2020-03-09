@@ -21,6 +21,8 @@ from __future__ import print_function
 import json
 import os
 import time
+print('SLEEPING FOREVER')
+time.sleep(100000000)
 
 # pylint: disable=g-bad-import-order
 from absl import flags
