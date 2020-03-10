@@ -465,7 +465,8 @@ class RetinanetBoxLoss(object):
     # for instances, the regression targets of 512x512 input with 6 anchors on
     # P3-P7 pyramid is about [0.1, 0.1, 0.2, 0.2].
     normalizer = num_positives * 4.0
-    mask = tf.not_equal(box_targets, 0.0)
+    mask = tf.cast(tf.not_equal(box_targets, 0.0), dtype=tf.float32)
+    mask = tf.math.reduce_max(mask, axis=-1)
     box_loss = self._huber_loss(box_targets, box_outputs, sample_weight=mask)
     box_loss /= normalizer
     return box_loss
