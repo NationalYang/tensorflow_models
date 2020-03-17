@@ -45,6 +45,11 @@ class CtlBenchmark(PerfZeroBenchmark):
         output_dir=self.output_dir,
         default_flags=self.default_flags,
         flag_methods=self.flag_methods)
+    
+  def _setup(self):
+    super(CtlBenchmark, self)._setup()
+    FLAGS.enable_checkpoint_and_export = False
+    FLAGS.enable_tensorboard = False
 
   def _report_benchmark(self,
                         stats,
