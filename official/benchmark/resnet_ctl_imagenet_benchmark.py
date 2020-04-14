@@ -13,12 +13,12 @@
 # limitations under the License.
 # ==============================================================================
 """Executes CTL benchmarks and accuracy tests."""
+# pylint: disable=line-too-long,g-bad-import-order
 from __future__ import print_function
 
 import os
 import time
 
-# pylint: disable=g-bad-import-order
 from absl import flags
 import tensorflow as tf
 
@@ -144,8 +144,6 @@ class Resnet50CtlAccuracy(CtlBenchmark):
     FLAGS.epochs_between_evals = 10
     FLAGS.model_dir = self._get_model_dir('benchmark_8_gpu')
     FLAGS.dtype = 'fp32'
-    # Add some thread tunings to improve performance.
-    FLAGS.datasets_num_private_threads = 14
     self._run_and_report_benchmark()
 
   def benchmark_8_gpu_fp16(self):
@@ -158,8 +156,6 @@ class Resnet50CtlAccuracy(CtlBenchmark):
     FLAGS.epochs_between_evals = 10
     FLAGS.model_dir = self._get_model_dir('benchmark_8_gpu_fp16')
     FLAGS.dtype = 'fp16'
-    # Add some thread tunings to improve performance.
-    FLAGS.datasets_num_private_threads = 14
     self._run_and_report_benchmark()
 
   def benchmark_8_gpu_amp(self):
@@ -173,8 +169,6 @@ class Resnet50CtlAccuracy(CtlBenchmark):
     FLAGS.model_dir = self._get_model_dir('benchmark_8_gpu_amp')
     FLAGS.dtype = 'fp16'
     FLAGS.fp16_implementation = 'graph_rewrite'
-    # Add some thread tunings to improve performance.
-    FLAGS.datasets_num_private_threads = 14
     self._run_and_report_benchmark()
 
   @benchmark_wrappers.enable_runtime_flags
@@ -288,7 +282,7 @@ class Resnet50CtlBenchmarkBase(CtlBenchmark):
     FLAGS.num_gpus = 1
     FLAGS.distribution_strategy = 'one_device'
     FLAGS.model_dir = self._get_model_dir('benchmark_1_gpu_eager')
-    FLAGS.batch_size = 128
+    FLAGS.batch_size = 120
     FLAGS.use_tf_function = False
     FLAGS.use_tf_while_loop = False
     FLAGS.single_l2_loss_op = True
@@ -301,7 +295,7 @@ class Resnet50CtlBenchmarkBase(CtlBenchmark):
     FLAGS.num_gpus = 1
     FLAGS.distribution_strategy = 'one_device'
     FLAGS.model_dir = self._get_model_dir('benchmark_1_gpu_fp16_eager')
-    FLAGS.batch_size = 250
+    FLAGS.batch_size = 240
     FLAGS.dtype = 'fp16'
     FLAGS.use_tf_function = False
     FLAGS.use_tf_while_loop = False
