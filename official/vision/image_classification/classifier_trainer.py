@@ -253,6 +253,7 @@ def initialize(params: base_configs.ExperimentConfig,
   if params.runtime.run_eagerly:
     # Enable eager execution to allow step-by-step debugging
     tf.config.experimental_run_functions_eagerly(True)
+  common.set_cudnn_batchnorm_mode()
 
 
 def define_classifier_flags():
@@ -305,6 +306,11 @@ def train_and_eval(
       all_reduce_alg=params.runtime.all_reduce_alg,
       num_gpus=params.runtime.num_gpus,
       tpu_address=params.runtime.tpu)
+
+  if strategy:
+    strategy.extended.experimental_enable_get_next_as_optional = (
+        flags_obj.enable_get_next_as_optional
+    )
 
   strategy_scope = distribution_utils.get_strategy_scope(strategy)
 
