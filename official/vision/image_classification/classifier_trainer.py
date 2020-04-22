@@ -308,9 +308,7 @@ def train_and_eval(
       tpu_address=params.runtime.tpu)
 
   if strategy:
-    strategy.extended.experimental_enable_get_next_as_optional = (
-        flags_obj.enable_get_next_as_optional
-    )
+    strategy.extended.experimental_enable_get_next_as_optional = True
 
   strategy_scope = distribution_utils.get_strategy_scope(strategy)
 
