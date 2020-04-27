@@ -79,6 +79,7 @@ def _get_classifier_parameters(
           'batch_size': per_replica_batch_size,
           'image_size': 224,
           'dtype': dtype,
+          'use_slack': False,
       },
       'validation_dataset': {
           'builder': builder,
@@ -86,6 +87,7 @@ def _get_classifier_parameters(
           'use_per_replica_batch_size': True,
           'image_size': 224,
           'dtype': dtype,
+          'use_slack': False,
       },
       'train': {
           'epochs': epochs,
