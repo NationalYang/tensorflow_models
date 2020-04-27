@@ -452,6 +452,7 @@ class DatasetBuilder:
       dataset = dataset.batch(self.global_batch_size,
                               drop_remainder=self.is_training)
 
+    """
     if self.is_training:
       options = tf.data.Options()
       options.experimental_deterministic = self.config.deterministic_train
@@ -461,6 +462,7 @@ class DatasetBuilder:
       options.experimental_optimization.map_vectorization.enabled = True
       options.experimental_optimization.map_parallelization = True
       dataset = dataset.with_options(options)
+    """
 
     # Prefetch overlaps in-feed with training
     dataset = dataset.prefetch(tf.data.experimental.AUTOTUNE)

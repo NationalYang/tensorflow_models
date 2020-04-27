@@ -255,7 +255,7 @@ def initialize(params: base_configs.ExperimentConfig,
     tf.config.experimental_run_functions_eagerly(True)
 
   # Set cudnn batchnorm mode.
-  #os.environ['TF_USE_CUDNN_BATCHNORM_SPATIAL_PERSISTENT'] = '1'
+  os.environ['TF_USE_CUDNN_BATCHNORM_SPATIAL_PERSISTENT'] = '1'
 
 def define_classifier_flags():
   """Defines common flags for image classification."""
