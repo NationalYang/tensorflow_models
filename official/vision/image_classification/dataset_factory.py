@@ -462,6 +462,8 @@ class DatasetBuilder:
       options.experimental_optimization.map_vectorization.enabled = True
       options.experimental_optimization.map_parallelization = True
       dataset = dataset.with_options(options)
+    else:
+      print ("Skipping dataset options")
 
     # Prefetch overlaps in-feed with training
     dataset = dataset.prefetch(tf.data.experimental.AUTOTUNE)
