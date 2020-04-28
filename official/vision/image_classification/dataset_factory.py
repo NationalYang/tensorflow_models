@@ -454,6 +454,7 @@ class DatasetBuilder:
 
     if self.is_training and self.augmenter:
       print ("Applying options")
+      logging.info("Applying options")
       options = tf.data.Options()
       options.experimental_deterministic = self.config.deterministic_train
       options.experimental_slack = self.config.use_slack
@@ -464,6 +465,7 @@ class DatasetBuilder:
       dataset = dataset.with_options(options)
     else:
       print ("Skipping dataset options")
+      logging.info("Skipping dataset options")
 
     # Prefetch overlaps in-feed with training
     dataset = dataset.prefetch(tf.data.experimental.AUTOTUNE)
