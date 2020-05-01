@@ -309,7 +309,7 @@ def train_and_eval(
       tpu_address=params.runtime.tpu)
 
   #if strategy:
-  #  strategy.extended.experimental_enable_get_next_as_optional = True
+  #  strategy.extended.experimental_enable_get_next_as_optional = False
 
   strategy_scope = distribution_utils.get_strategy_scope(strategy)
 
@@ -366,9 +366,9 @@ def train_and_eval(
                                              model_dir=params.model_dir,
                                              train_steps=train_steps)
 
-    callbacks = custom_callbacks.get_callbacks(
-        model_checkpoint=params.train.callbacks.enable_checkpoint_and_export,
-        include_tensorboard=params.train.callbacks.enable_tensorboard,
+      callbacks = custom_callbacks.get_callbacks(
+          model_checkpoint=params.train.callbacks.enable_checkpoint_and_export,
+          include_tensorboard=params.train.callbacks.enable_tensorboard,
         time_history=params.train.callbacks.enable_time_history,
         track_lr=params.train.tensorboard.track_lr,
         write_model_weights=params.train.tensorboard.write_model_weights,
@@ -381,6 +381,7 @@ def train_and_eval(
 
   if params.evaluation.skip_eval:
     validation_kwargs = {}
+    tf.keras.backend.set_learning_phase(1)
   else:
     validation_kwargs = {
         'validation_data': validation_dataset,
