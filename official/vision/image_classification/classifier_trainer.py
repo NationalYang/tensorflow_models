@@ -340,7 +340,8 @@ def train_and_eval(
         params=params.model.optimizer.as_dict())
 
     metrics_map = _get_metrics(one_hot)
-    metrics = [metrics_map[metric] for metric in params.train.metrics]
+    #metrics = [metrics_map[metric] for metric in params.train.metrics]
+    metrics = None
     steps_per_loop = train_steps if params.train.set_epoch_loop else 1
 
     if one_hot:
@@ -374,7 +375,6 @@ def train_and_eval(
 
   if params.evaluation.skip_eval:
     validation_kwargs = {}
-    tf.keras.backend.set_learning_phase(1)
   else:
     validation_kwargs = {
         'validation_data': validation_dataset,
