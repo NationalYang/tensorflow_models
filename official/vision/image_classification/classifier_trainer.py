@@ -303,6 +303,7 @@ def train_and_eval(
       num_gpus=params.runtime.num_gpus,
       tpu_address=params.runtime.tpu)
 
+  strategy.extended.experimental_enable_get_next_as_optional = False
   strategy_scope = distribution_utils.get_strategy_scope(strategy)
 
   logging.info('Detected %d devices.',
