@@ -36,6 +36,7 @@ from official.vision.image_classification.configs import base_configs
 from official.vision.image_classification.configs import configs
 from official.vision.image_classification.efficientnet import efficientnet_model
 from official.vision.image_classification.resnet import common
+from official.vision.image_classification.resnet import imagenet_preprocessing
 from official.vision.image_classification.resnet import resnet_model
 
 
@@ -315,12 +316,25 @@ def train_and_eval(
   one_hot = label_smoothing and label_smoothing > 0
 
   builders = _get_dataset_builders(params, strategy, one_hot)
-  datasets = [builder.build(strategy)
-              if builder else None for builder in builders]
+  #datasets = [builder.build(strategy)
+  #            if builder else None for builder in builders]
 
   # Unpack datasets and builders based on train/val/test splits
   train_builder, validation_builder = builders  # pylint: disable=unbalanced-tuple-unpacking
-  train_dataset, validation_dataset = datasets
+  #train_dataset, validation_dataset = datasets
+
+  imagenet_fn = imagenet_preprocessing.input_fn(
+      is_training=True,
+      data_dir=params.train_dataset.data_dir,
+      batch_size=train_builder.global_batch_size,
+      parse_record_fn=imagenet_preprocessing.get_parse_record_fn(
+        use_keras_image_data_format=False),
+      datasets_num_private_threads=params.runtime.dataset_num_private_threads,
+      dtype=train_builder.dtype,
+      drop_remainder=True,
+      tf_data_experimental_slack=False,
+  )
+
 
   train_epochs = params.train.epochs
   train_steps = params.train.steps or train_builder.num_steps
