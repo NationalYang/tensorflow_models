@@ -303,6 +303,9 @@ def train_and_eval(
       num_gpus=params.runtime.num_gpus,
       tpu_address=params.runtime.tpu)
 
+  if strategy:
+    strategy.extended.experimental_get_next_as_optional = False
+
   strategy_scope = distribution_utils.get_strategy_scope(strategy)
 
   logging.info('Detected %d devices.',
@@ -375,6 +378,7 @@ def train_and_eval(
 
   if params.evaluation.skip_eval:
     validation_kwargs = {}
+    tf.keras.backend.set_learning_phase(1)
   else:
     validation_kwargs = {
         'validation_data': validation_dataset,

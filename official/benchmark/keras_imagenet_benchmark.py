@@ -97,6 +97,7 @@ def _get_classifier_parameters(
               'enable_checkpoint_and_export': False,
               'enable_time_history': True,
           },
+          'resume_checkpoint': False,
       },
       'model': {
           'loss': {
