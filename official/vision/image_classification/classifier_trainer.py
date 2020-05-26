@@ -301,7 +301,6 @@ def train_and_eval(
       distribution_strategy=params.runtime.distribution_strategy,
       all_reduce_alg=params.runtime.all_reduce_alg,
       num_gpus=params.runtime.num_gpus,
-      num_packs=params.runtime.num_packs,
       tpu_address=params.runtime.tpu)
 
   strategy_scope = distribution_utils.get_strategy_scope(strategy)
