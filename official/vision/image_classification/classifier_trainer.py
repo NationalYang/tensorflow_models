@@ -348,8 +348,8 @@ def train_and_eval(
 
   lr_schedule = common.PiecewiseConstantDecayWithWarmup(
       batch_size=train_builder.global_batch_size,
-      epoch_size=params.model.optimizer.epoch_size,
-      warmup_epochs=params.model.optimizer.warmup_epochs,
+      epoch_size=imagenet_preprocessing.NUM_IMAGES['train'],
+      warmup_epochs=common.LR_SCHEDULE[0][1],
       boundaries=params.model.optimizer.bounndaries,
       multipliers=params.model.optimizer.multipliers)
 
