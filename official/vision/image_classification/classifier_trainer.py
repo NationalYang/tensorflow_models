@@ -350,7 +350,7 @@ def train_and_eval(
       batch_size=train_builder.global_batch_size,
       epoch_size=imagenet_preprocessing.NUM_IMAGES['train'],
       warmup_epochs=common.LR_SCHEDULE[0][1],
-      boundaries=params.model.optimizer.bounndaries,
+      boundaries=params.model.optimizer.boundaries,
       multipliers=params.model.optimizer.multipliers)
 
   with strategy_scope:
