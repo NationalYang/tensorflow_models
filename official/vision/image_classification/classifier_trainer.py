@@ -346,9 +346,18 @@ def train_and_eval(
 
   logging.info('Global batch size: %d', train_builder.global_batch_size)
 
+  lr_schedule = common.PiecewiseConstantDecayWithWarmup(
+      batch_size=train_builder.global_batch_size,
+      epoch_size=params.model.optimizer.epoch_size,
+      warmup_epochs=params.model.optimizer.warmup_epochs,
+      boundaries=params.model.optimizer.bounndaries,
+      multipliers=params.model.optimizer.multipliers)
+
   with strategy_scope:
     model_params = params.model.model_params.as_dict()
     model = get_models()[params.model.name](**model_params)
+    optimizer = common.get_optimizer(lr_schedule)
+    """
     learning_rate = optimizer_factory.build_learning_rate(
         params=params.model.learning_rate,
         batch_size=train_builder.global_batch_size,
@@ -357,6 +366,7 @@ def train_and_eval(
         optimizer_name=params.model.optimizer.name,
         base_learning_rate=learning_rate,
         params=params.model.optimizer.as_dict())
+    """
 
     metrics_map = _get_metrics(one_hot)
     #metrics = [metrics_map[metric] for metric in params.train.metrics]
