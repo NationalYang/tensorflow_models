@@ -241,8 +241,8 @@ def parse_record(raw_record, is_training, dtype):
   # Subtract one so that labels are in [0, 1000), and cast to float32 for
   # Keras model.
   label -= 1
-  label = tf.one_hot(label, NUM_CLASSES)
-  label = tf.reshape(label, [NUM_CLASSES])
+  label = tf.one_hot(label, 1000)
+  label = tf.reshape(label, [1000])
   return image, label
 
 
