@@ -249,8 +249,8 @@ def initialize(params: base_configs.ExperimentConfig,
           gpu_thread_mode=params.runtime.gpu_thread_mode,
           num_gpus=params.runtime.num_gpus,
           datasets_num_private_threads=params.runtime.dataset_num_private_threads)  # pylint:disable=line-too-long
-    if params.runtime.batchnorm_spatial_persistent:
-      os.environ['TF_USE_CUDNN_BATCHNORM_SPATIAL_PERSISTENT'] = '1'
+    #if params.runtime.batchnorm_spatial_persistent:
+    #  os.environ['TF_USE_CUDNN_BATCHNORM_SPATIAL_PERSISTENT'] = '1'
 
 
 def define_classifier_flags():
@@ -402,7 +402,7 @@ def train_and_eval(
 
   if params.evaluation.skip_eval:
     validation_kwargs = {}
-    #tf.keras.backend.set_learning_phase(1)
+    tf.keras.backend.set_learning_phase(1)
   else:
     validation_kwargs = {
         'validation_data': validation_dataset,
