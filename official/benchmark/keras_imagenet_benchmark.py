@@ -101,7 +101,7 @@ def _get_classifier_parameters(
       },
       'model': {
           'loss': {
-              'label_smoothing': 0.1,
+              'label_smoothing': 0.0,
           },
       },
       'evaluation': {
