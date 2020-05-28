@@ -194,8 +194,6 @@ def parse_example_proto(example_serialized):
   features = tf.io.parse_single_example(serialized=example_serialized,
                                         features=feature_map)
   label = tf.cast(features['image/class/label'], dtype=tf.int32)
-  label = tf.one_hot(label, NUM_CLASSES)
-  label = tf.reshape(label, [NUM_CLASSES])
 
   xmin = tf.expand_dims(features['image/object/bbox/xmin'].values, 0)
   ymin = tf.expand_dims(features['image/object/bbox/ymin'].values, 0)
@@ -242,8 +240,9 @@ def parse_record(raw_record, is_training, dtype):
 
   # Subtract one so that labels are in [0, 1000), and cast to float32 for
   # Keras model.
-  label = tf.cast(tf.cast(tf.reshape(label, shape=[1]), dtype=tf.int32) - 1,
-                  dtype=tf.float32)
+  label -= 1
+  label = tf.one_hot(label, NUM_CLASSES)
+  label = tf.reshape(label, [NUM_CLASSES])
   return image, label
 
 
