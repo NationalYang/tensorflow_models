@@ -304,8 +304,8 @@ def train_and_eval(
       num_gpus=params.runtime.num_gpus,
       tpu_address=params.runtime.tpu)
 
-  if strategy:
-    strategy.extended.experimental_get_next_as_optional = False
+  #if strategy:
+  #  strategy.extended.experimental_get_next_as_optional = False
 
   strategy_scope = distribution_utils.get_strategy_scope(strategy)
 
@@ -316,14 +316,13 @@ def train_and_eval(
   one_hot = label_smoothing and label_smoothing > 0
 
   builders = _get_dataset_builders(params, strategy, one_hot)
-  datasets = [builder.build(strategy)
-              if builder else None for builder in builders]
+  #datasets = [builder.build(strategy)
+  #            if builder else None for builder in builders]
 
   # Unpack datasets and builders based on train/val/test splits
   train_builder, validation_builder = builders  # pylint: disable=unbalanced-tuple-unpacking
-  train_dataset, validation_dataset = datasets
+  #train_dataset, validation_dataset = datasets
 
-  """
   train_dataset = imagenet_preprocessing.input_fn(
       is_training=True,
       data_dir=params.train_dataset.data_dir,
@@ -335,7 +334,6 @@ def train_and_eval(
       drop_remainder=True,
       tf_data_experimental_slack=False,
   )
-  """
 
   train_epochs = params.train.epochs
   train_steps = params.train.steps or train_builder.num_steps
