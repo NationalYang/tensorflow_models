@@ -323,7 +323,7 @@ def train_and_eval(
   train_builder, validation_builder = builders  # pylint: disable=unbalanced-tuple-unpacking
   #train_dataset, validation_dataset = datasets
 
-  imagenet_fn = imagenet_preprocessing.input_fn(
+  train_dataset = imagenet_preprocessing.input_fn(
       is_training=True,
       data_dir=params.train_dataset.data_dir,
       batch_size=train_builder.global_batch_size,
@@ -334,7 +334,6 @@ def train_and_eval(
       drop_remainder=True,
       tf_data_experimental_slack=False,
   )
-
 
   train_epochs = params.train.epochs
   train_steps = params.train.steps or train_builder.num_steps
