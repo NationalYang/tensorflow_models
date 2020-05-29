@@ -349,7 +349,7 @@ def train_and_eval(
       warmup_epochs=common.LR_SCHEDULE[0][1],
       boundaries=list(p[1] for p in common.LR_SCHEDULE[1:]),
       multipliers=list(p[0] for p in common.LR_SCHEDULE),
-      compute_lr_on_cpu=False)
+      compute_lr_on_cpu=True)
 
   with strategy_scope:
     model_params = params.model.model_params.as_dict()
