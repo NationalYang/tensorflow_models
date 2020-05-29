@@ -249,8 +249,8 @@ def initialize(params: base_configs.ExperimentConfig,
           gpu_thread_mode=params.runtime.gpu_thread_mode,
           num_gpus=params.runtime.num_gpus,
           datasets_num_private_threads=params.runtime.dataset_num_private_threads)  # pylint:disable=line-too-long
-    #if params.runtime.batchnorm_spatial_persistent:
-    #  os.environ['TF_USE_CUDNN_BATCHNORM_SPATIAL_PERSISTENT'] = '1'
+    if params.runtime.batchnorm_spatial_persistent:
+      os.environ['TF_USE_CUDNN_BATCHNORM_SPATIAL_PERSISTENT'] = '1'
 
 
 def define_classifier_flags():
@@ -304,8 +304,8 @@ def train_and_eval(
       num_gpus=params.runtime.num_gpus,
       tpu_address=params.runtime.tpu)
 
-  #if strategy:
-  #  strategy.extended.experimental_get_next_as_optional = False
+  if strategy:
+    strategy.extended.experimental_get_next_as_optional = False
 
   strategy_scope = distribution_utils.get_strategy_scope(strategy)
 
@@ -349,7 +349,7 @@ def train_and_eval(
       warmup_epochs=common.LR_SCHEDULE[0][1],
       boundaries=list(p[1] for p in common.LR_SCHEDULE[1:]),
       multipliers=list(p[0] for p in common.LR_SCHEDULE),
-      compute_lr_on_cpu=True)
+      compute_lr_on_cpu=False)
 
   with strategy_scope:
     model_params = params.model.model_params.as_dict()
@@ -402,7 +402,7 @@ def train_and_eval(
 
   if params.evaluation.skip_eval:
     validation_kwargs = {}
-    #tf.keras.backend.set_learning_phase(1)
+    tf.keras.backend.set_learning_phase(1)
   else:
     validation_kwargs = {
         'validation_data': validation_dataset,
