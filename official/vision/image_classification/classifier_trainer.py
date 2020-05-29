@@ -343,6 +343,7 @@ def train_and_eval(
 
   logging.info('Global batch size: %d', train_builder.global_batch_size)
 
+  """
   lr_schedule = common.PiecewiseConstantDecayWithWarmup(
       batch_size=train_builder.global_batch_size,
       epoch_size=imagenet_preprocessing.NUM_IMAGES['train'],
@@ -350,6 +351,11 @@ def train_and_eval(
       boundaries=list(p[1] for p in common.LR_SCHEDULE[1:]),
       multipliers=list(p[0] for p in common.LR_SCHEDULE),
       compute_lr_on_cpu=True)
+  """
+  lr_schedule = optimizer_factory.build_learning_rate(
+      params=params.model.learning_rate,
+      batch_size=train_builder.global_batch_size,
+      train_steps=train_steps)
 
   with strategy_scope:
     model_params = params.model.model_params.as_dict()
