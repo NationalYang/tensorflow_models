@@ -66,6 +66,13 @@ class PiecewiseConstantDecayWithWarmup(
     # repeatedly call and thus create ops for the learning rate schedule. To
     # avoid this, we cache the ops if not executing eagerly.
     graph = tf.compat.v1.get_default_graph()
+    if self.compute_lr_on_cpu:
+      with tf.device('/device:CPU:0'):
+        return self._get_learning_rate(step)
+    else:
+      return self._get_learning_rate(step)
+
+    """
     if graph not in self.learning_rate_ops_cache:
       if self.compute_lr_on_cpu:
         with tf.device('/device:CPU:0'):
@@ -73,6 +80,7 @@ class PiecewiseConstantDecayWithWarmup(
       else:
         self.learning_rate_ops_cache[graph] = self._get_learning_rate(step)
     return self.learning_rate_ops_cache[graph]
+    """
 
   def _get_learning_rate(self, step):
     """Compute learning rate at given step."""
